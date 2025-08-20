@@ -25,3 +25,12 @@ end
   )
 )
 end
+
+40.times do
+  Review.create(
+    rating: rand(1..5),
+    comment: Faker::Lorem.paragraph,
+    user_id: rand(1..10),
+    book_id: rand(1..20)
+  )
+end
