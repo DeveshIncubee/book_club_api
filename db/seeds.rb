@@ -12,5 +12,16 @@
 require 'faker'
 
 10.times do
-  User.create(name: Faker::Name.name, email: Faker::Internet.unique.email)
+  name = Faker::Name.unique.first_name
+  User.create(name: name, email: "#{name.downcase}@test.com")
+end
+
+20.times do
+  Book.create(
+    title: Faker::Book.title,
+    author: Faker::Book.author,
+    genre: Faker::Book.genre,
+    published_year: Faker::Number.between(from: 1900, to: Time.current.year
+  )
+)
 end
