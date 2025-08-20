@@ -9,5 +9,9 @@ module Types
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
 
     field :reviews, [ Types::ReviewType ], null: true
+
+    def reviews
+      Loaders::AssociationLoader.for(User, :reviews).load(object)
+    end
   end
 end

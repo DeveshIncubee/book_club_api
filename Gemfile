@@ -51,3 +51,5 @@ group :development, :test do
 
   gem "graphiql-rails"
 end
+
+gem "graphql-batch", "~> 0.6.0"
