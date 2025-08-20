@@ -33,5 +33,21 @@ module Types
     def book(id:)
       Book.find(id)
     end
+
+    field :reviews, [ Types::ReviewType ], null: false, description: "Return a list of reviews." do
+      argument :limit, Integer, required: false, description: "Limit of the reviews.", default_value: 8
+    end
+
+    def reviews(limit:)
+      Review.limit(limit)
+    end
+
+    field :review, Types::ReviewType, null: true, description: "Fetch a review given its ID." do
+      argument :id, ID, required: true, description: "ID of the review."
+    end
+
+    def review(id:)
+      Review.find(id)
+    end
   end
 end
