@@ -2,52 +2,13 @@
 
 module Types
   class QueryType < Types::BaseObject
-    field :users, [ Types::UserType ], null: false, description: "Return a list of users" do
-      argument :limit, Integer, required: false, description: "Limit of the users.", default_value: 4
-    end
+    field :user, resolver: Resolvers::GetUser
+    field :users, resolver: Resolvers::GetUsers
 
-    def users(limit:)
-      User.limit(limit)
-    end
+    field :book, resolver: Resolvers::GetBook
+    field :books, resolver: Resolvers::GetBooks
 
-    field :user, Types::UserType, null: true, description: "Fetch a user given its ID." do
-      argument :id, ID, required: true, description: "ID of the user."
-    end
-
-    def user(id:)
-      User.find(id)
-    end
-
-    field :books, [ Types::BookType ], null: false, description: "Return a list of books." do
-      argument :limit, Integer, required: false, description: "Limit of the books.", default_value: 8
-    end
-
-    def books(limit:)
-      Book.limit(limit)
-    end
-
-    field :book, Types::BookType, null: true, description: "Fetch a book given its ID." do
-      argument :id, ID, required: true, description: "ID of the book."
-    end
-
-    def book(id:)
-      Book.find(id)
-    end
-
-    field :reviews, [ Types::ReviewType ], null: false, description: "Return a list of reviews." do
-      argument :limit, Integer, required: false, description: "Limit of the reviews.", default_value: 8
-    end
-
-    def reviews(limit:)
-      Review.limit(limit)
-    end
-
-    field :review, Types::ReviewType, null: true, description: "Fetch a review given its ID." do
-      argument :id, ID, required: true, description: "ID of the review."
-    end
-
-    def review(id:)
-      Review.find(id)
-    end
+    field :review, resolver: Resolvers::GetReview
+    field :reviews, resolver: Resolvers::GetReviews
   end
 end
