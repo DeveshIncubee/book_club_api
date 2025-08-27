@@ -2,8 +2,8 @@ module Mutations
   class CreateBook < BaseMutation
     argument :title, String, required: true
     argument :author, String, required: true
-    argument :genre, String, required: true
-    argument :published_year, Integer, required: true
+    argument :genre, String, required: false
+    argument :published_year, Integer, required: false
 
     field :book, Types::BookType, null: true
     field :errors, [ String ], null: false
@@ -14,7 +14,13 @@ module Mutations
       if book.save
         { book:, errors: [] }
       else
-        { book: nil, errors: book.errors.full_messages }
+        if title.empty?
+          { book: nil, errors: [ "Title cannot be empty" ] }
+        elsif author.empty?
+          { book: nil, errors: [ "Author cannot be empty" ] }
+        else
+          { book: nil, errors: book.errors.full_messages }
+        end
       end
     end
   end
