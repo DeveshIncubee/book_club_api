@@ -11,7 +11,17 @@ module Mutations
       if user.save
         { user:, errors: [] }
       else
-        { user: nil, errors: user.errors.full_message }
+        if name.empty?
+          { user: nil, errors: [ "Name cannot be empty" ] }
+        elsif email.empty?
+          { user: nil, errors: [ "Email cannot be empty" ] }
+        elsif email.match?(URI::MailTo::EMAIL_REGEXP) == false
+          { user: nil, errors: [ "Provide valid email" ] }
+        elsif User.where(email:).any?
+          { user: nil, errors: [ "Email has already been taken" ] }
+        else
+          { user: nil, errors: user.errors.full_message }
+        end
       end
     end
   end
