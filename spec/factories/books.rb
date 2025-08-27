@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :validbook, class: Book  do
-    title { "Little Selves" }
-    author { "Mary Lerner" }
-    genre { "Short Story" }
-    published_year { 1916 }
+    title { Faker::Book.title }
+    author { Faker::Book.author }
+    genre { Faker::Book.genre }
+    published_year { Faker::Number.between(from: 1900, to: Time.current.year) }
   end
 end
