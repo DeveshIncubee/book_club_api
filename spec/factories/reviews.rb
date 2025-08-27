@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :validreview, class: Review do
-    rating { 4 }
-    comment { "Life-changing experience" }
+    rating { rand(1..5) }
+    comment { Faker::Lorem.paragraph }
   end
 end
