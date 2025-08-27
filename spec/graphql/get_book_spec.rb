@@ -1,33 +1,19 @@
 require_relative "../rails_helper"
 
-RSpec.describe "Get Book Query", type: :request do
-  let(:book) { create(:validbook) }
+RSpec.describe Resolvers::GetBook do
+  describe "#resolve" do
+    let(:book) { create(:validbook) }
+    let(:query_ctx) { GraphQL::Query.new(BookClubApiSchema, "{ __typename }").context }
 
-  def query(id:)
-    <<~GQL
-      query {
-        book(id: #{id}) {
-          id
-          title
-          author
-          genre
-          publishedYear
-        }
-      }
-    GQL
-  end
+    let(:resolver) { described_class.new(object: nil, context: query_ctx, field: nil) }
 
-  it "returns a book" do
-    post "/graphql", params: { query: query(id: book.id) }
-    json = JSON.parse(response.body)
-    data = json["data"]["book"]
+    it "returns the book by id" do
+      result = resolver.resolve(id: book.id)
+      expect(result).to eq(book)
+    end
 
-    expect(data).to include(
-      "id" => book.id.to_s,
-      "title" => book.title,
-      "author" => book.author,
-      "genre" => book.genre,
-      "publishedYear" => book.published_year
-    )
+    it "returns a RecordNotFound error for non-existent book" do
+      expect { resolver.resolve(id: 0) }.to raise_error(ActiveRecord::RecordNotFound)
+    end
   end
 end

@@ -1,43 +1,21 @@
 require_relative "../rails_helper"
 
-RSpec.describe "Get Review Query", type: :request do
-  let(:user) { create(:validuser) }
-  let(:book) { create(:validbook) }
-  let(:review) { create(:validreview, user_id: user.id, book_id: book.id) }
+RSpec.describe Resolvers::GetReview do
+  describe "#resolve" do
+    let(:user) { create(:validuser) }
+    let(:book) { create(:validbook) }
+    let(:review) { create(:validreview, user_id: user.id, book_id: book.id) }
+    let(:query_ctx) { GraphQL::Query.new(BookClubApiSchema, "{ __typename }").context }
 
-  def query(id:)
-    <<~GQL
-      query {
-        review(id: #{id}) {
-          id
-          rating
-          comment
-          user {
-            id
-          }
-          book {
-            id
-          }
-        }
-      }
-    GQL
-  end
+    let(:resolver) { described_class.new(object: nil, context: query_ctx, field: nil) }
 
-  it "returns a review" do
-    post "/graphql", params: { query: query(id: review.id) }
-    json = JSON.parse(response.body)
-    data = json["data"]["review"]
+    it "returns the review by id" do
+      result = resolver.resolve(id: review.id)
+      expect(result).to eq(review)
+    end
 
-    expect(data).to include(
-      "id" => review.id.to_s,
-      "rating" => review.rating,
-      "comment" => review.comment,
-      "user" => {
-        "id" => user.id.to_s
-      },
-      "book" => {
-        "id" => book.id.to_s
-      }
-    )
+    it "returns a RecordNotFound error for non-existent review" do
+      expect { resolver.resolve(id: 0) }.to raise_error(ActiveRecord::RecordNotFound)
+    end
   end
 end

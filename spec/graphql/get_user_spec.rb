@@ -1,29 +1,19 @@
 require_relative "../rails_helper"
 
-RSpec.describe "Get User Query", type: :request do
-  let(:user) { create(:validuser) }
+RSpec.describe Resolvers::GetUser do
+  describe "#resolve" do
+    let(:user) { create(:validuser) }
+    let(:query_ctx) { GraphQL::Query.new(BookClubApiSchema, "{ __typename }").context }
 
-  def query(id:)
-    <<~GQL
-      query {
-        user(id: #{id}) {
-          id
-          name
-          email
-        }
-      }
-    GQL
-  end
+    let(:resolver) { described_class.new(object: nil, context: query_ctx, field: nil) }
 
-  it "returns a user" do
-    post "/graphql", params: { query: query(id: user.id) }
-    json = JSON.parse(response.body)
-    data = json["data"]["user"]
+    it "returns the user by id" do
+      result = resolver.resolve(id: user.id)
+      expect(result).to eq(user)
+    end
 
-    expect(data).to include(
-      "id" => user.id.to_s,
-      "name" => user.name,
-      "email" => user.email
-    )
+    it "returns a RecordNotFound error for non-existent user" do
+      expect { resolver.resolve(id: 0) }.to raise_error(ActiveRecord::RecordNotFound)
+    end
   end
 end
