@@ -14,7 +14,13 @@ module Mutations
       if review.save
         { review:, errors: [] }
       else
-        { review: nil, errors: review.errors.full_messages }
+        if (1..5).include?(rating) == false
+          { review: nil, errors: [ "Rating must be between 1 and 5" ] }
+        elsif comment.empty?
+          { review: nil, errors: [ "Comment cannot be empty" ] }
+        else
+          { review: nil, errors: review.errors.full_messages }
+        end
       end
     end
   end
