@@ -28,6 +28,8 @@ module Mutations
             { user: nil, errors: [ "Email cannot be empty" ] }
           elsif args[:email].match?(URI::MailTo::EMAIL_REGEXP) == false
             { user: nil, errors: [ "Provide valid email" ] }
+          elsif User.where(email: args[:email]).any?
+            { user: nil, errors: [ "Email already taken" ] }
           end
         else
           { user: nil, errors: user.errors.full_messages }

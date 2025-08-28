@@ -7,6 +7,7 @@ RSpec.describe Mutations::UpdateUser do
   before(:context) do
     User.destroy_all
     @existing_user = create(:validuser)
+    @another_existing_user = create(:validuser, name: "Jane", email: "janehyphen@doe.com")
   end
 
   describe "#resolve" do
@@ -112,6 +113,19 @@ RSpec.describe Mutations::UpdateUser do
 
         expect(result[:user]).to be_nil
         expect(result[:errors]).to include("Provide valid email")
+      end
+    end
+
+    context "when valid ID and existing email are provided" do
+      let(:id) { @existing_user.id }
+      let(:taken_email) { @another_existing_user.email }
+      let(:args) { { id:, email: taken_email } }
+
+      it "returns a validation error about email being taken" do
+        result = mutation.resolve(**args)
+
+        expect(result[:user]).to be_nil
+        expect(result[:errors]).to include("Email already taken")
       end
     end
 
