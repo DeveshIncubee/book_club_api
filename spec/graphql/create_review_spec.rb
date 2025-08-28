@@ -4,6 +4,11 @@ RSpec.describe Mutations::CreateReview do
   subject(:query_ctx) { GraphQL::Query.new(BookClubApiSchema, "{ __typename }").context }
   subject(:mutation) { described_class.new(object: nil, context: query_ctx, field: nil) }
 
+  before(:context) do
+    User.destroy_all
+    Book.destroy_all
+  end
+
   describe "#resolve" do
     let(:user) { create(:validuser) }
     let(:book) { create(:validbook) }
