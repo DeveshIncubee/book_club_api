@@ -19,5 +19,11 @@ module Types
     def events
       Loaders::AssociationLoader.for(User, :events).load(object)
     end
+
+    field :attended_events, [ Types::EventType ], null: true
+
+    def attended_events
+      Loaders::AssociationLoader.for(User, :attended_events).load(object)
+    end
   end
 end

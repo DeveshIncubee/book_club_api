@@ -17,5 +17,11 @@ module Types
     def host
       Loaders::RecordLoader.for(User).load(object.user_id)
     end
+
+    field :attendees, [ Types::UserType ], null: true
+
+    def attendees
+      Loaders::AssociationLoader.for(Event, :attendees).load(object)
+    end
   end
 end

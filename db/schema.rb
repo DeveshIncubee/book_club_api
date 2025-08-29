@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_29_055233) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_29_073446) do
   create_table "books", force: :cascade do |t|
     t.string "title"
     t.string "author"
@@ -18,6 +18,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_29_055233) do
     t.integer "published_year"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "event_attendances", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "event_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_event_attendances_on_event_id"
+    t.index ["user_id"], name: "index_event_attendances_on_user_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -50,6 +59,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_29_055233) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "event_attendances", "events"
+  add_foreign_key "event_attendances", "users"
   add_foreign_key "events", "users"
   add_foreign_key "reviews", "books"
   add_foreign_key "reviews", "users"
