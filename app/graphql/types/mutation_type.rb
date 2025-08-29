@@ -16,5 +16,6 @@ module Types
 
     field :create_event, mutation: Mutations::CreateEvent
     field :attend_event, mutation: Mutations::AttendEvent
+    field :unattend_event, mutation: Mutations::UnattendEvent
   end
 end
