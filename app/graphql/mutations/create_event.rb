@@ -16,7 +16,11 @@ module Mutations
       if event.save
         { event:, errors: [] }
       else
-        { event: nil, errors: event.errors.full_messages }
+        if title.empty?
+          { event: nil, errors: [ "Title cannot be empty" ] }
+        else
+          { event: nil, errors: event.errors.full_messages }
+        end
       end
     end
   end
