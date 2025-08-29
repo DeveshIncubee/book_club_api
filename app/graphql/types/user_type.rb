@@ -13,5 +13,11 @@ module Types
     def reviews
       Loaders::AssociationLoader.for(User, :reviews).load(object)
     end
+
+    field :events, [ Types::EventType ], null: true
+
+    def events
+      Loaders::AssociationLoader.for(User, :events).load(object)
+    end
   end
 end
