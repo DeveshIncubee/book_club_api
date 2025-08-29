@@ -15,6 +15,7 @@ module Types
     field :delete_review, mutation: Mutations::DeleteReview
 
     field :create_event, mutation: Mutations::CreateEvent
+    field :delete_event, mutation: Mutations::DeleteEvent
     field :attend_event, mutation: Mutations::AttendEvent
     field :unattend_event, mutation: Mutations::UnattendEvent
   end
