@@ -20,6 +20,8 @@ module Mutations
           { event: nil, errors: [ "Title cannot be empty" ] }
         elsif description.empty?
           { event: nil, errors: [ "Description cannot be empty" ] }
+        elsif location.empty?
+          { event: nil, errors: [ "Location cannot be empty" ] }
         else
           { event: nil, errors: event.errors.full_messages }
         end
