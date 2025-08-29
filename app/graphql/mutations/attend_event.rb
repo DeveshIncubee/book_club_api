@@ -7,6 +7,10 @@ module Mutations
     field :errors, [ String ], null: false
 
     def resolve(user_id:, event_id:)
+      if EventAttendance.where(user_id:, event_id:).any?
+        return { attendance: nil, errors: [ "User is already attending this event" ] }
+      end
+
       attendance = EventAttendance.create(user_id:, event_id:)
 
       if attendance.save
