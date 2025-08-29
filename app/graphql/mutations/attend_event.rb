@@ -8,7 +8,7 @@ module Mutations
 
     def resolve(user_id:, event_id:)
       if EventAttendance.where(user_id:, event_id:).any?
-        return { attendance: nil, errors: [ "User is already attending this event" ] }
+        return { attendee: nil, errors: [ "User is already attending this event" ] }
       end
 
       attendance = EventAttendance.create(user_id:, event_id:)
@@ -16,7 +16,7 @@ module Mutations
       if attendance.save
         { attendee: attendance, errors: [] }
       else
-        { attendance: nil, errors: attendance.errors.full_messages }
+        { attendee: nil, errors: attendance.errors.full_messages }
       end
     end
   end
