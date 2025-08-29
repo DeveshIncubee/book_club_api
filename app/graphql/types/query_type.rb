@@ -10,5 +10,7 @@ module Types
 
     field :review, resolver: Resolvers::GetReview
     field :reviews, resolver: Resolvers::GetReviews
+
+    field :event, resolver: Resolvers::GetEvent
   end
 end
