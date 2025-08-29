@@ -82,5 +82,22 @@ RSpec.describe Mutations::CreateEvent do
         expect(result[:errors]).to include("Location cannot be empty")
       end
     end
+
+    context "when the user_id is invalid" do
+      let(:title) { "Discus Clean Code" }
+      let(:description) { "To discuss the Clean Code book, duh" }
+      let(:location) { "Mumbai" }
+      let(:starts_at) { Faker::Time.forward(days: 1, period: :morning) }
+      let(:ends_at) { Faker::Time.forward(days: 1, period: :evening) }
+      let(:invalid_user_id) { -1 }
+      let(:args) { { title:, description:, location:, starts_at:, ends_at:, user_id: invalid_user_id } }
+
+      it "returns a validation error about user_id being invalid" do
+        result = mutation.resolve(**args)
+
+        expect(result[:event]).to be_nil
+        expect(result[:errors]).to include("User must exist")
+      end
+    end
   end
 end
