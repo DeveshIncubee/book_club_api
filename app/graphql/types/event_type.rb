@@ -12,9 +12,9 @@ module Types
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
 
-    field :user, Types::UserType, null: false
+    field :host, Types::UserType, null: false
 
-    def user
+    def host
       Loaders::RecordLoader.for(User).load(object.user_id)
     end
   end
