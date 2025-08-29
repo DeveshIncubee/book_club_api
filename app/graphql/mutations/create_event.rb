@@ -18,6 +18,8 @@ module Mutations
       else
         if title.empty?
           { event: nil, errors: [ "Title cannot be empty" ] }
+        elsif description.empty?
+          { event: nil, errors: [ "Description cannot be empty" ] }
         else
           { event: nil, errors: event.errors.full_messages }
         end
