@@ -13,5 +13,7 @@ module Types
     field :create_review, mutation: Mutations::CreateReview
     field :update_review, mutation: Mutations::UpdateReview
     field :delete_review, mutation: Mutations::DeleteReview
+
+    field :create_event, mutation: Mutations::CreateEvent
   end
 end
