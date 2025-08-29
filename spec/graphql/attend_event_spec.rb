@@ -1,0 +1,60 @@
+require_relative "../rails_helper.rb"
+
+RSpec.describe Mutations::AttendEvent do
+  subject(:query_ctx) { GraphQL::Query.new(BookClubApiSchema, "{ __typename }").context }
+  subject(:mutation) { described_class.new(object: nil, context: query_ctx, field: nil) }
+
+  before(:context) do
+    User.destroy_all
+    Event.destroy_all
+
+    @host = create(:validuser, name: 'host', email: 'host@event.com')
+    @attendee = create(:validuser, name: 'user', email: 'user@event.com')
+    @event = create(:validevent, user_id: @host.id)
+  end
+
+  describe "#resolve" do
+    context "when the input is valid" do
+      let(:user_id) { @attendee.id }
+      let(:event_id) { @event.id }
+      let(:args) { { user_id:, event_id: } }
+
+      it "creates a new event attendee" do
+        expect { mutation.resolve(**args) }.to change(EventAttendance, :count).by(1)
+      end
+
+      it "returns a new event attendee with no errors" do
+        result = mutation.resolve(**args)
+
+        expect(result[:attendee]).to have_attributes(user_id:, event_id:)
+        expect(result[:errors]).to be_empty
+      end
+    end
+
+    context "when the user_id is invalid" do
+      let(:invalid_user_id) { -1 }
+      let(:event_id) { @event.id }
+      let(:args) { { user_id: invalid_user_id, event_id: } }
+
+      it "returns a validation error about user_id being invalid" do
+        result = mutation.resolve(**args)
+
+        expect(result[:attendee]).to be_nil
+        expect(result[:errors]).to include("User must exist")
+      end
+    end
+
+    context "when the event_id is invalid" do
+      let(:user_id) { @attendee.id }
+      let(:invalid_event_id) { -1 }
+      let(:args) { { user_id:, event_id: invalid_event_id } }
+
+      it "returns a validation error about event_id being invalid" do
+        result = mutation.resolve(**args)
+
+        expect(result[:attendee]).to be_nil
+        expect(result[:errors]).to include("Event must exist")
+      end
+    end
+  end
+end
