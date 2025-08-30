@@ -1,0 +1,55 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://stephen-king-api.onrender.com/api/short/18
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.13.4
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 30 Aug 2025 05:09:14 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Etag:
+      - W/"11f-2CLzJoVpamxOgp/TkxYZwa+1+yI"
+      Rndr-Id:
+      - 71378089-7a53-41e0
+      Vary:
+      - Accept-Encoding
+      X-Powered-By:
+      - Express
+      X-Render-Origin-Server:
+      - Render
+      Cf-Cache-Status:
+      - DYNAMIC
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 9771c657be493add-BOM
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: '{"data":{"id":18,"title":"The 43rd Dream","type":"short story","handle":"the-43rd-dream","originallyPublishedIn":"The
+        Drum (January 29, 1966)","collectedIn":"Uncollected","notes":["Lisbon Falls
+        High School publication"],"year":1966,"created_at":"2023-11-13T23:48:58.231Z","villains":[]}}'
+  recorded_at: Sat, 30 Aug 2025 05:09:13 GMT
+recorded_with: VCR 6.3.1
