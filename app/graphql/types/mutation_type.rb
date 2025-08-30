@@ -7,6 +7,7 @@ module Types
     field :delete_user, mutation: Mutations::DeleteUser
 
     field :create_book, mutation: Mutations::CreateBook
+    field :add_king_book, mutation: Mutations::AddKingBook
     field :update_book, mutation: Mutations::UpdateBook
     field :delete_book, mutation: Mutations::DeleteBook
 
