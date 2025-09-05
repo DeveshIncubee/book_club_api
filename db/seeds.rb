@@ -34,3 +34,30 @@ end
     book_id: rand(1..20)
   )
 end
+
+# Seed Events
+15.times do
+  Event.create(
+    title: Faker::Lorem.sentence(word_count: 3),
+    description: Faker::Lorem.paragraph(sentence_count: 2),
+    starts_at: Faker::Time.forward(days: 60, period: :day),
+    ends_at: Faker::Time.forward(days: 60, period: :day) + rand(1..5).hours,
+    location: Faker::Address.full_address,
+    user_id: User.all.sample.id
+  )
+end
+
+# Seed EventAttendances
+# Ensure there are enough users and events to create attendances
+users = User.all
+events = Event.all
+
+if users.any? && events.any?
+  30.times do
+    user = users.sample
+    event = events.sample
+    # Ensure uniqueness if needed, though for seeding, it might not be strictly necessary
+    # depending on the model's validations. For simplicity, we'll just create.
+    EventAttendance.find_or_create_by(user: user, event: event)
+  end
+end
