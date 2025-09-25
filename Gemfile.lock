@@ -129,8 +129,8 @@ GEM
       base64
       fiber-storage
       logger
-    graphql-batch (0.6.0)
-      graphql (>= 1.12.18, < 3)
+    graphql-batch (0.6.1)
+      graphql (>= 1.13, < 3)
       promise.rb (~> 0.7.2)
     hashdiff (1.2.0)
     i18n (1.14.7)
@@ -383,7 +383,7 @@ DEPENDENCIES
   faraday
   graphiql-rails
   graphql (~> 2.5)
-  graphql-batch (~> 0.6.0)
+  graphql-batch (~> 0.6.1)
   kamal
   pg (~> 1.1)
   puma (>= 5.0)

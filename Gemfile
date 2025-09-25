@@ -39,7 +39,7 @@ gem "thruster", require: false
 gem "faker"
 
 gem "graphql", "~> 2.5"
-gem "graphql-batch", "~> 0.6.0"
+gem "graphql-batch", "~> 0.6.1"
 
 gem "faraday"
 
